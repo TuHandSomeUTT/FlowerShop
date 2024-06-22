@@ -1,19 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author VHC
- */
 public class Product {
-    
     private int id;
     private String name;
-    private  double price;
-    private byte [] image;
+    private double price;
+    private byte []image;
 
     public int getId() {
         return id;
@@ -46,6 +37,4 @@ public class Product {
     public void setImage(byte[] image) {
         this.image = image;
     }
-    
-    
 }

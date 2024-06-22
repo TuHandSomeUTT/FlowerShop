@@ -4,18 +4,66 @@
  */
 package View;
 
+import Model.Dao;
+import Model.Product;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Duong Minh Dat
  */
 public class AllSanPhamFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AllSanPhamFrame
-     */
+    int xx, xy;
+    Dao dao = new Dao();
+    DefaultTableModel model;
+    private ArrayList<Product> list;
+    
     public AllSanPhamFrame() {
         initComponents();
+          Dao dao = new Dao();
+        list = new Dao().getAllProduct();
+        model = (DefaultTableModel) jTable1.getModel();
+        model.setColumnIdentifiers( new Object[]{
+        "ID","Name","Price","Image"
+    });
+       showTable();
+
     }
+    
+        private void showTable() {
+        for(Product p : list){
+            model.addRow(new Object[]{
+               p.getId(), p.getName(), p.getPrice(), p.getImage()
+                    
+            });
+        }
+        }
+    
+//    public void tableProduct(){
+//       dao.getallProduct(jTable1);
+//       model = (DefaultTableModel)  jTable1.getModel();
+//       jTable1.setRowHeight(100);
+//       jTable1.setShowGrid(true);
+//       jTable1.setGridColor(Color.BLACK);
+//       jTable1.setBackground(Color.WHITE);
+//       jTable1.setSelectionBackground(Color.GRAY);
+//       jTable1.setModel(model);
+//       jTable1.getTableHeader().setReorderingAllowed(false);
+//       jTable1.getColumnModel().getColumn(3).setCellRenderer(new AllSanPhamFrame.ImageRenderer());
+//       
+//    }
+      
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,8 +81,23 @@ public class AllSanPhamFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -96,6 +159,48 @@ public class AllSanPhamFrame extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jLabel4MouseClicked
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        for(double i = 0.1; i<=1.0;i+=0.1){
+                String s = "" + i;
+                float f = Float.parseFloat(s);
+                this.setOpacity(f);
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AllSanPhamFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        xx = evt.getX();
+        xy = evt.getY(); 
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x -xx,y -xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+
+
+    private class ImageRenderer extends DefaultTableCellRenderer{
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            JLabel jL = new  JLabel();
+            byte[] bytes = (byte[]) value;
+            ImageIcon imageicon = new ImageIcon(new ImageIcon(bytes).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            jL.setIcon(imageicon);
+            return jL;
+        }
+       
+                
+    }
+    
     /**
      * @param args the command line arguments
      */

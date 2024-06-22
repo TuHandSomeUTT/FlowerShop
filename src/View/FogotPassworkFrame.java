@@ -4,6 +4,12 @@
  */
 package View;
 
+import Model.AdminDao;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Duong Minh Dat
@@ -13,8 +19,21 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
     /**
      * Creates new form FogotPassworkFrame
      */
+    int xx,xy;
+    Color notEdit = new Color(204,204,204);
+    Color edit = new Color(255,255,255);
+    AdminDao dao = new AdminDao();
     public FogotPassworkFrame() {
         initComponents();
+        jTextField6.setBackground(notEdit);
+        jTextField5.setBackground(notEdit);
+        jPasswordField1.setBackground(notEdit);
+        jTextField6.setEditable(false);
+        jTextField5.setEditable(false);
+        jPasswordField1.setEditable(false);
+        jButton3.setEnabled(false);
+        
+        
     }
 
     /**
@@ -45,8 +64,23 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -86,6 +120,11 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
                 jTextField3ActionPerformed(evt);
             }
         });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField3KeyTyped(evt);
+            }
+        });
 
         jTextField5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
@@ -115,10 +154,25 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
         jPasswordField1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/visible.png"))); // NOI18N
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/hide.png"))); // NOI18N
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search.png"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         jTextField6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
@@ -224,6 +278,21 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        if(isEmpty()){
+            String username = jTextField3.getText();
+            String ans = jTextField5.getText();
+            if(dao.getAns(username, ans)){
+                String password = String.valueOf(jPasswordField1.getPassword());
+                dao.setPassword(username, password);
+                JOptionPane.showMessageDialog(this, "Password updated");
+                new LoginFrame().setVisible(true);
+                setVisible(false);
+            }else{
+                JOptionPane.showMessageDialog(this, "Security answer didn't not match", "warring", 2);
+            }
+            
+            
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -236,6 +305,95 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
 
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+
+        jPasswordField1.setEchoChar('*');
+        // Ẩn jLabel9 (ví dụ: biểu tượng "hiển thị mật khẩu")
+        jLabel9.setVisible(true);
+        // Hiển thị jLabel2 (ví dụ: biểu tượng "ẩn mật khẩu")
+        jLabel2.setVisible(false);
+    }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        // TODO add your handling code here:
+        jPasswordField1.setEchoChar((char) 0);
+        // Ẩn jLabel9 (ví dụ: biểu tượng "hiển thị mật khẩu")
+        jLabel9.setVisible(false);
+        // Hiển thị jLabel2 (ví dụ: biểu tượng "ẩn mật khẩu")
+        jLabel2.setVisible(true);
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+        // TODO add your handling code here:
+        char input = evt.getKeyChar();
+        if (!(input < '0' || input > '9') && input != '\b') {
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "User name doesn't contian any number!", "warring", 2);
+        }
+    }//GEN-LAST:event_jTextField3KeyTyped
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        for (double i = 0.1; i <= 1.0; i += 0.1) {
+            String s = "" + i;
+            float f = Float.parseFloat(s);
+            this.setOpacity(f);
+            try {
+                Thread.sleep(40);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FogotPassworkFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        xx = evt.getX();
+        xy = evt.getY();
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+        // TODO add your handling code here:
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        if(jTextField3.getText().isEmpty()){
+             JOptionPane.showMessageDialog(this, " Username is required!", "warring", 2);
+        }else{
+            if (dao.getSecurity(jTextField3.getText())) {
+                jTextField6.setBackground(edit);
+                jTextField5.setBackground(edit);
+                jPasswordField1.setBackground(edit);
+                jTextField6.setEditable(true);
+                jTextField5.setEditable(true);
+                jPasswordField1.setEditable(true);
+                jButton3.setEnabled(true);
+            } else {
+              JOptionPane.showMessageDialog(this, " Username doesn't exist!", "warring", 2);  
+            }
+        }
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+        public boolean isEmpty(){
+        if (jTextField5.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, " Answer is required!", "warring", 2);
+            return false;
+        }
+            if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
+                JOptionPane.showMessageDialog(this, "New Password is required!", "warring", 2);
+                return false;
+            }   
+        
+        
+        return true;
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -288,6 +446,6 @@ public class FogotPassworkFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    public static javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

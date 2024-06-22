@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/JAVA_Netbeans_WorkSpace/CHHoa/src/View/LoginFrame.java</file>
+            <file>file:/D:/NguyenTrongTan_72TT11_JavaAdvanced/src/View/ThemSanPhamFrame.java</file>
+            <file>file:/D:/NguyenTrongTan_72TT11_JavaAdvanced/src/View/QLSanPhamFrame.java</file>
+            <file>file:/D:/NguyenTrongTan_72TT11_JavaAdvanced/src/View/AllSanPhamFrame.java</file>
+            <file>file:/D:/NguyenTrongTan_72TT11_JavaAdvanced/src/Model/Dao.java</file>
+            <file>file:/D:/NguyenTrongTan_72TT11_JavaAdvanced/src/Model/MyConnection.java</file>
         </group>
     </open-files>
 </project-private>

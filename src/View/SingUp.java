@@ -285,7 +285,7 @@ public class SingUp extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+            // TODO add your handling code here:
         if(isEmpty()){
             String username = jTextField3.getText().trim();
             if(! dao.isAdminNameExist(username)){

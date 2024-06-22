@@ -4,6 +4,7 @@
  */
 package View;
 
+import Model.AdminDao;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ public class LoginFrame extends javax.swing.JFrame {
     /**
      * Creates new form LoginFrame
      */
+    AdminDao dao = new AdminDao();
     int xx,xy;
     public LoginFrame() {
         initComponents();
@@ -254,6 +256,24 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+                if(isEmpty()){
+            String username = jTextField3.getText().trim();
+            String password = String.valueOf(jPasswordField1.getPassword());
+            if(dao.getMaxRowAdminTable() != 1){
+               if(dao.login(username, password)){
+               JOptionPane.showMessageDialog(this, "Login Success");   
+               new HomeFrame().setVisible(true);
+                   setVisible(false);
+               }else{
+               JOptionPane.showMessageDialog(this, "Incorrect username or password ><","Login failed",2);   
+               }
+            }else{
+                JOptionPane.showMessageDialog(this, "No admin in the table admin !!\n You need to sign up ><","Login failed",2);
+                new SingUp().setVisible(true);
+                setVisible(false);
+            }
+        }
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -310,7 +330,7 @@ public class LoginFrame extends javax.swing.JFrame {
             try {
                 Thread.sleep(40);
             } catch (InterruptedException ex) {
-                Logger.getLogger(SingUp.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_formWindowOpened
@@ -332,6 +352,18 @@ public class LoginFrame extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    public boolean isEmpty(){
+        if(jTextField3.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "User name is required!","warring",2);
+            return false;
+        }
+        if (String.valueOf(jPasswordField1.getPassword()).isEmpty()) {
+            JOptionPane.showMessageDialog(this, "User name is required!", "warring", 2);
+            return false;
+        }
+        
+        return true;
+    }
     /**
      * @param args the command line arguments
      */
