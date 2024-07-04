@@ -15,6 +15,16 @@ public class Dao {
     PreparedStatement ps;
     Statement st;
     ResultSet rs;
+    
+    Connection con = MyConnection.getConnection();
+    PreparedStatement ps;
+    Statement st;
+    ResultSet rs;
+    
+    Connection con = MyConnection.getConnection();
+    PreparedStatement ps;
+    Statement st;
+    ResultSet rs;
 
     public int insertProduct1(Product p) {
         int rowsAffected = 0;
