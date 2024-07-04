@@ -63,7 +63,7 @@ public class Dao {
         }
         return rowsAffected;
     }
-
+//Done :V out đây
     public ArrayList<Product> getAllProduct() {
         ArrayList<Product> danhsachHoa = new ArrayList<>();
         PreparedStatement ps = null;
